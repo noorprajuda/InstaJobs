@@ -9,6 +9,7 @@ var session = require('express-session')
 router.get('/',UserController.home) 
 router.use('/register', registerRoutes)
 router.get('/login',UserController.loginForm)
+router.post('/login',UserController.postLogin)
 router.get('/addCompany',UserController.addCompany)
 router.post('/addCompany',UserController.addCompanyDet)
 router.get('/manageJob/:CompanyId',UserController.manageJob)
@@ -21,7 +22,7 @@ router.get('/applicantList/:CompanyId',UserController.findApplicants)
 router.get('/applicantList/:CompanyId/reject/:id',UserController.rejectApplicant)
 router.get('/applicantList/:CompanyId/approve/:id',UserController.approveApplicant)
 router.post('/applicantList/:CompanyId/approve/:id',UserController.approved)
-router.post('/login',UserController.postLogin)
+
 
 const isLoggedIn = function (req,res,next) {
     // console.log(req.session);

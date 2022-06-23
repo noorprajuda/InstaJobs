@@ -46,6 +46,10 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           msg: 'E-mail can not be empty!'
+        },
+        isEmail: {
+          
+          msg: 'Invalid e-mail address!'
         }
       }
 
@@ -73,6 +77,11 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           msg: 'Password can not be empty!'
+        },
+        min8(instance) {
+          if (instance.password.length < 8) {
+            throw new Error('Minimumm password length is 8');
+          }
         }
       }
 

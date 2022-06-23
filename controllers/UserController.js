@@ -66,11 +66,11 @@ class UserController {
                     const errors = err.errors.map(el=> el.message)
                     // res.send(errors)
                     res.render(`auth-pages/registerForm`, {errors})
+                } else if(err.name === "SequelizeUniqueConstraintError") {
+                    res.send(err.errors.map(el=> el.message))
                 } else {
                     res.send(err)
-
                 }
-                
             })
     }
 
@@ -229,11 +229,11 @@ class UserController {
 
     static jobList(req, res) {
 
-        let { name } = req.query
+        let { title } = req.query
         let options = { include: Company, order: [['createdAt', 'DESC']] }
 
-        if (name) {
-            options.where = {...options.where, name: {[Op.iLike]: `%${name}%`} }
+        if (title) {
+            options.where = {...options.where, title: {[Op.iLike]: `%${title}%`} }
         }
 
         Job.scopeNotVacantJob(options
@@ -305,8 +305,11 @@ class UserController {
                 if (err.name === 'SequelizeValidationError') {
                     const errors = err.errors.map(el=> el.message)
                     res.redirect(`/jobList/${JobId}/apply?errors=${errors}`)
+                } else if(err.name === "SequelizeUniqueConstraintError") {
+                    res.send(err.errors.map(el=> el.message))
+                } else {
+                    res.send(err)
                 }
-                else res.send(err)
             })
     }
 
