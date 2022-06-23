@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <%- include("./partials/head.ejs", { title: `InstaJobs - Home`}) %>
+
+  <body>
+    <%- include("./partials/navbar.ejs") %>
+
+
+    <div style="text-align: center;">
+
+      <h1 style="margin-top: 50px;">InstaJobs</h1></br>
+ 
+
+      <button type="button" class="btn btn-dark" onclick="location.href='/jobs'">Manage Job</button>
+      <button type="button" class="btn btn-dark" onclick="location.href='/hiring'">Apply Job</button>
+    </div>
+    <%- include("./partials/script.ejs") %>
+  </body>
+  
+</html>

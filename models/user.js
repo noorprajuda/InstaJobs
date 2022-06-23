@@ -26,6 +26,15 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'User',
+    hooks: {
+      beforeCreate(instance) {
+        instance.fullName = "Name1"
+        instance.gender = 'Male'
+        instance.skill = "NodeJs"
+        instance.createdAt = new Date()
+        instance.updatedAt = new Date()
+      }
+    }
   });
   return User;
 };
