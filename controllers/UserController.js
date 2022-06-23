@@ -9,7 +9,6 @@ var session = require('express-session')
 
 class UserController {
     static home(req, res){
-        const role = req.session.role
         if (req.session.role  === 'recruiter'){
             const UserId = req.session.userId
             User.findByPk(UserId,{
@@ -105,11 +104,34 @@ class UserController {
     }
 
     static manageJob(req,res) {
-
-        Company.findByPk({
-            include:[Job]
+        const UserId = req.session.userId
+        Company.findAll({
+            include:[Job],
+            where:{
+                UserId : UserId
+            }
         })
-        res.render('managejob')
+        .then(result=>{
+            res.render(`managejob`,{result})
+        })
+        .catch(err=>{
+            res.send(err)
+        })
+    }
+
+    static addJobPage(req,res){
+        const CompanyId = req.params.CompanyId
+        res.render('addJob',{CompanyId})
+    }
+
+    static addJob(req,res){
+        const CompanyId = req.params.CompanyId
+        const { title,vacancy,requirement,salary } = req.body
+        const {createdAt,updatedAt} = new Date()
+        Job.create({ title,vacancy,requirement,salary,createdAt,updatedAt,CompanyId })
+        .then(result =>{
+            res.redirect(`/managejob/${CompanyId}`)
+        })
     }
 
     static table(req, res) {

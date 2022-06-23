@@ -7,7 +7,29 @@
     <title>Manage Job</title>
 </head>
 <body>
-    <p><%= JSON.stringify(result) %> </p>
-    <table></table>
+    <h1>Job Lists</h1>
+    <button><a href="/manageJob/<%= result[0].id %>/addJob">Add Job</a></button>
+    <table>
+        <thead>
+            <td>Title</td>
+            <td>Vacancy</td>
+            <td>Requirement</td>
+            <td>Salary</td>
+            <td>Action</td>
+        </thead>
+        <tbody>
+            <% result[0].Jobs.forEach(el => { %>
+                <tr>
+                    <td><%= el.title %></td>
+                    <td><%= el.vacancy %></td>
+                    <td><%= el.requirement %></td>
+                    <td><%= el.salary %></td>
+                    <td><button><a href=""></a>Edit</button>
+                        <button><a href=""></a>Delete</button>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
 </body>
 </html>
