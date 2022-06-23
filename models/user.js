@@ -46,6 +46,9 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           msg: 'E-mail can not be empty!'
+        },
+        isEmail: {
+          msg: 'Invalid e-mail address!'
         }
       }
 
@@ -73,7 +76,12 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           msg: 'Password can not be empty!'
-        }
+        },
+          min8(length) {
+            if (length < 8) {
+              throw new Error('Tidak perlu menggunakan prefix 0 di depan nomor telepon');
+            }
+          }
       }
 
     }
