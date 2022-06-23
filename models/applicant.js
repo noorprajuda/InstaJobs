@@ -28,6 +28,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Applicant',
+    hooks: {
+      beforeCreate(instance) {
+        instance.status = 'pending'
+      }
+    }
   });
   return Applicant;
 };

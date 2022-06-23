@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+</head>
+<body>
+    <h1>Edit Profile</h1>
+    <%=JSON.stringify(user)%>
+    <form action="/editProfile/<%= user.id %>" method="POST">
+        Full Name: <br>
+        <input type="text" name="fullName" value="<%= user.fullName %>"><br>
+        Gender: <br>
+        <select name="gender" id="gender">
+            <option selected disabled>--SELECT ONE--</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+        Skill:
+        <select name="skill">
+            <option selected disabled>--SELECT ONE--</option>
+            <option value="SQL">SQL</option>
+            <option value="JavaScript">JavaScript</option>
+            <option value="Node JS">Node JS</option>
+        </select><br>
+        E-mail: <br>
+        <input type="text" name="email" value="<%= user.email %>"><br>
+        Password: <br>
+        <input type="text" name="password"><br>
+        <button style="" type="submit">Update</button>
+    </form>
+
+    
+</body>
+</html>

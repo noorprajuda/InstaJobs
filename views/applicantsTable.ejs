@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applicant Tables</title>
+</head>
+<body>
+    <h1>Applicant Tables</h1>
+    
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Interview Date</th>
+                <th>Applicant Name</th>
+                <th>Job Title</th>
+                <th>Company Name</th>
+                
+
+            </tr>
+        </thead>
+
+        <tbody>
+            <% applicants.forEach(el => { %>
+                <tr>
+                    <td><%= el.status %></td>
+                    <td><%= el.interviewDate %></td>
+                    <td><%= el.User.fullName %></td>
+                    <td><%= el.Job.title %></td>
+                    <td><%= el.Company.name %></td>
+    
+                </tr>
+             
+            <% }) %>
+        </tbody>
+    </table>
+
+</body>
+</html>

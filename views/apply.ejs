@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+    <%- include("./partials/head.ejs", { title: `Hack Portal - Apply Job`}) %>
+    <body>
+        
+
+        <div class="container-fluid py-5">
+            <div class="container">
+
+                <h1 class="text-center mb4">Please Confirm Your Data</h1></br>
+
+                <div class="offset-lg-3 col-lg-6">
+                    <div class="container mt-5">
+
+                        <% if (errors) { %>
+                            <p style="color: red;">
+                                <% errors.split(',').map(el=>{ %>
+                                    <%= el %> <br>
+                                <% })%>
+                            </p>
+                        <% } %>
+
+                        <form action="/jobList/<%= job.id %>/apply" method="POST">
+                            <div class="row g-3">
+
+                            <div class="col-md-12">
+                                <label for="CompanyId" class="form-label">Company:</label>
+                                <select name="CompanyId" id="CompanyId">
+                                    <option selected value="<%= job.Company.id%>"><%= job.Company.name%></option>
+                                </select>
+                
+                            </div> 
+
+                            <div class="col-md-12">
+                                <label for="title" class="form-label">Job title</label>
+                                <select name="title" id="title">
+                                    <option selected value="<%= job.title%>"><%= job.title%></option>
+                                </select>
+                                
+                            </div>
+
+                            <div class="col-md-12">
+                                <label for="requirement" class="form-label">Requirement</label>
+                                <select name="requirement" id="requirement">
+                                    <option selected value="<%= job.requirement%>"><%= job.requirement%></option>
+                                </select>
+                                
+                                
+                            </div>
+
+                            <div class="col-md-12">
+                                <label for="salary" class="form-label">Salary</label>
+                                <select name="salary" id="salary">
+                                    <option selected value="<%= job.salary%>"><%= job.salary%></option>
+                                </select>
+                            </div>
+
+                        
+                            <div>
+                                <button style="width:100px; margin-top: 10px; border-color: grey;" type="submit" class="btn btn-light">Confirm</button>
+                            </div>
+                        
+                        
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <%- include("./partials/script.ejs") %>
+    </body>
+</html>
