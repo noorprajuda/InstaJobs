@@ -30,3 +30,4 @@ module.exports = {
      return queryInterface.removeColumn('Applicants', 'UserId')
   }
 };
+
