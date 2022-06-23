@@ -1,4 +1,6 @@
 'use strict';
+const { Op } = require("sequelize");
+
 const {
   Model
 } = require('sequelize');
@@ -14,6 +16,12 @@ module.exports = (sequelize, DataTypes) => {
       Job.hasMany(models.Applicant)
       Job.belongsTo(models.Company)
     }
+
+    static scopeNotVacantJob(options) {
+      options.where = {...options.where, vacancy: {[Op.gt]: 0} }
+      return Job.findAll(options)
+    }
+
   }
   Job.init({
     title: DataTypes.STRING,

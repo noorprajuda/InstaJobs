@@ -14,7 +14,7 @@ module.exports = {
       onUpdate: 'CASCADE',
       references: {
         model: {
-          tableName: 'Jobs'
+          tableName: 'Companies'
         }
       }
     })

@@ -23,11 +23,16 @@ module.exports = (sequelize, DataTypes) => {
     interviewDate: DataTypes.DATE,
     UserId: DataTypes.INTEGER,
     JobId: DataTypes.INTEGER,
-    CompanyId: DataTypes.INTEGER
+    CompanyId: DataTypes.INTEGER,
 
   }, {
     sequelize,
     modelName: 'Applicant',
+    hooks: {
+      beforeCreate(instance) {
+        instance.status = 'pending'
+      }
+    }
   });
   return Applicant;
 };

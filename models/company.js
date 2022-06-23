@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Company.hasOne(models.User)
+      Company.belongsTo(models.User)
       Company.hasMany(models.Applicant)
       Company.hasMany(models.Job)
     }
