@@ -11,7 +11,7 @@
         
       <% if(!result.Company) {%> <button type="button" class="btn btn-dark" onclick="location.href='/addCompany'">Add company</button><% } %> 
       <button type="button" class="btn btn-dark" onclick="location.href='/manageJob/<%= result.Company.id %>'">Manage Job</button>
-      <button type="button" class="btn btn-dark" onclick="location.href='/applicantList'">Applicant Lists</button>
+      <button type="button" class="btn btn-dark" onclick="location.href='/applicantList/<%= result.Company.id %>'">Applicant Lists</button>
     </div>
     <%- include("./partials/script.ejs") %>
   </body>
