@@ -5,6 +5,10 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const myPlaintextPassword = 's0/\/\P4$$w0rD';
 const someOtherPlaintextPassword = 'not_bacon';
+const {google} = require('calendar-link')
+const open = require('open')
+const formatCurrency = require('../helper/formatter')
+
 var session = require('express-session')
 
 class UserController {
@@ -22,8 +26,12 @@ class UserController {
             })
         }
         else if (req.session.role  === 'applicant') {
+
+
+
             const UserId = req.session.userId
             res.render('applicantHome', {UserId})
+
         }
         else{
             res.render('home')
@@ -114,12 +122,44 @@ class UserController {
             })
     }
 
-    static table(req, res) {
-        res.render('table')
+    static addCompany(req,res){
+        res.render('addCompany')
+    }
+    
+    static addCompanyDet(req,res){
+        const UserId = req.session.userId
+        const {name} = req.body
+        const {createdAt,updatedAt} = new Date()
+        Company.create ({name,createdAt,updatedAt,UserId})
+        .then(result =>{
+            res.redirect('/')
+        })
+        .catch(err=>{
+            res.send(err)
+        })
+        
     }
 
-    static mvp(req, res) {
-        res.render('mvp')
+    static manageJob(req,res) {
+        const UserId = req.session.userId
+        Company.findAll({
+            include:[Job],
+            where:{
+                UserId : UserId
+            }
+        })
+        .then(result=>{
+            res.render(`managejob`,{result,formatCurrency})
+        })
+        .catch(err=>{
+            res.send(err)
+        })
+    }
+
+
+    static addJobPage(req,res){
+        const CompanyId = req.params.CompanyId
+        res.render('addJob',{CompanyId})
     }
 
     static editProfile(req, res) {
@@ -272,113 +312,136 @@ class UserController {
 
 
 
-    // static masters(req, res){
-    //     Master.findAll({include: [Student]})
-    //         .then(masters=>{
-    //             res.render('masters', {masters})
-    //         })
-    //         .catch(err=>{
-                
-    //             res.send(err)
-    //         })
-        
-    // }
+    static addJob(req,res){
+        const CompanyId = req.params.CompanyId
+        const { title,vacancy,requirement,salary } = req.body
+        const {createdAt,updatedAt} = new Date()
+        Job.create({ title,vacancy,requirement,salary,createdAt,updatedAt,CompanyId })
+        .then(result =>{
+            res.redirect(`/managejob/${CompanyId}`)
+        })
+    }
 
-    // static students(req, res){
-    //     const {name}  = req.query
-    //     let options = {include: [Master]}
-    //     if (name) {
-    //         options.where = {name:{[Op.iLike]: `%${name}%`}}
-    //     }
+    static deleteJob(req,res){
+        const CompanyId = req.params.CompanyId
+        const id = req.params.id
+        Job.destroy({where:{id:id}})
+        .then(result=>{
+            res.redirect(`/managejob/${CompanyId}`)
+        })
+        .catch(err=>{
+            res.send(err)
+        })
+    }
 
-    //     Student.findAll(options)
-    //         .then(students=>{
-    //             res.render('students', {students})
-    //         })
-    //         .catch(err=>{
-                
-    //             res.send(err)
-    //         })
-        
-    // }
+    static editJobPage(req,res){
+        const CompanyId = req.params.CompanyId
+        const id = req.params.id
+        Job.findByPk(id)
+        .then(result=>{
+            res.render('editJob',{result})
+        })
+        .catch(err=>{
+            res.send(err)
+        })
+    }
 
-    // static addStudent(req, res){
-    //     Master.findAll({include: [Student]})
-    //         .then(masters=>{
-    //             res.render('formAdd', {masters})
-    //         })
-    //         .catch(err=>{
-                
-    //             res.send(err)
-    //         })
-        
-    // }
+    static editJob(req,res){
+        const CompanyId = req.params.CompanyId
+        const id = req.params.id
+        const { title,vacancy,requirement,salary } = req.body
+        Job.update({ title,vacancy,requirement,salary },{
+            where:{
+                id:id
+            }
+        })
+        .then(result=>{
+            res.redirect(`/managejob/${CompanyId}`)
+        })
+        .catch(err=>{
+            res.send(err)
+        })
+    }
 
-    // static saveStudent(req, res){
-    //     const { name, specialist, MasterId } = req.body
-    //     Student.create({ name, specialist, MasterId })
-    //         .then(_ =>{
-                
-    //             res.redirect('/students')
-    //         })
-    //         .catch(err=>{
-                
-    //             if (err.name = "SequelizeValidationError") {
-    //                 err = err.errors.map(el=>el.message)
-    //                 res.send(err)
-    //             }
-    //             res.send(err)
-    //         })
-        
-    // }
+    static findApplicants(req,res){
+        const CompanyId = req.params.CompanyId
+        const {search} = req.query
+        const options = {
+                include : [{model:User,where:{}},Job],
+                where:{
+                    CompanyId:CompanyId
+            }
+        }
+        if(search) options.include[0].where.fullName={[Op.iLike]:`%${search}%`}
+        Applicant.findAll(options)
+        .then(result=>{
+            res.render('applicantList',{result})
+        })
+        .catch(err=>{
+            res.send(err)
+        })
+    }
 
-    // static trainStudent(req, res){
+    static rejectApplicant(req,res){
+        const CompanyId = req.params.CompanyId
+        const id = req.params.id
+        Applicant.update({status:'Rejected'},{
+            where:{
+                id:id
+                }
+        })
+        .then(result=>{
+            res.redirect(`/applicantList/${CompanyId}`)
+        })
+        .catch(err=>{
+            res.send(err)
+        })
+    }
 
-    //     const {studentId} = req.params
-        
-    //     Student.increment({ exp: specialistSame() }, {where: {id:studentId}})
-    //         .then(_ =>{
-    //             console.log(req.body);
-    //             res.redirect(`/masters/${studentId}/train`)
-    //         })
-    //         .catch(err=>{
-    //             console.log(err);
-    //             if (err.name = "SequelizeValidationError") {
-    //                 err = err.errors.map(el=>el.message)
-    //                 res.send(err)
-    //             }
-    //             res.send(err)
-    //         })
-        
-    // }
+    static approveApplicant(req,res){
+        const CompanyId = req.params.CompanyId
+        const id = req.params.id
+        Applicant.findByPk(id,{
+            include : [User,Job]})
+        .then(result=>{
+            res.render('approvePage',{result})
+        })
+        .catch(err=>{
+            res.send(err)
+        })
+    }
 
-    // static graduateStudent(req, res){
-    //     const {studentId} = req.params
-        
-        
-    //     Student.update({ isGraduate: true }, {where: {id:studentId}})
-    //         .then(_ =>{
-    //             res.redirect('/masters')
-    //         })
-    //         .catch(err=>{
-    //             res.send(err)
-    //         })
-        
-    // }
+    static approved(req,res){
+        const CompanyId = req.params.CompanyId
+        const id = req.params.id
+        const {fullName,email,interviewDate} = req.body
+        const event = {
+            title: `Interview for ${fullName}`,
+            description: "Don't be late!",
+            start: `${interviewDate}`,
+            guests: [`${email}`]
+        }
+        Applicant.update({status:'Approved',interviewDate:`${interviewDate}`},{
+            where:{
+                id:id
+            }
+        })
+        .then(result=>{
+            open(google(event),"_blank")
+            res.redirect(`/applicantList/${CompanyId}`)
+        })
+        .catch(err=>{
+            res.send(err)
+        })
+    }
 
-    // static masterStudents(req, res){
-    //     const {masterId}= req.params
-        
-    //     Master.findByPk(masterId, {include: [Student]})
-    //         .then(master=>{
-    //             res.render('masterStudents', {master, specialistSame, specialistNotSame})
-    //         })
-    //         .catch(err=>{
-                
-    //             res.send(err)
-    //         })
-        
-    // }
+    static table(req, res) {
+        res.render('table')
+    }
+
+    static mvp(req, res) {
+        res.render('mvp')
+    }
 }
 
 module.exports = UserController

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applicant List</title>
+</head>
+<body>
+    <h1>Applicants List</h1>
+    <hr>
+    <form action="" method="get">
+        <input type="text" name="search" placeholder="Search Status">
+        <input type="submit" value="Search">
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Gender</td>
+                <td>Skill</td>
+                <td>Job</td>
+                <td>Status</td>
+                <td>Interview Date</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            <% result.forEach(el => { %>
+                <tr>
+                    <td><%= el.User.fullName %></td>
+                    <td><%= el.User.gender %></td>
+                    <td><%= el.User.skill %></td>
+                    <td><%= el.Job.title %> </td>
+                    <td><%= el.status %></td>
+                    <td><%= el.formatedDate %></td>
+                    <td>
+                        <button><a href="/applicantList/<%= el.CompanyId %>/approve/<%= el.id %>">Approve</a></button>
+                        <button><a href="/applicantList/<%= el.CompanyId %>/reject/<%= el.id %>">Reject</a></button>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</body>
+</html>

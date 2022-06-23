@@ -5,9 +5,17 @@ const { Op } = require("sequelize");
 
 
 class AuthorController {
-    // static home(req, res){
-    //     res.render('home')
-    // }
+    
+    static home(req, res){
+        const role = req.session.role
+        console.log(role)
+        if (req.session.role  === 'recruiter'){
+            res.render('home')
+        }
+        else if (req.session.role  === 'applicant') {
+            res.send('test')
+        }
+    }
 
     // static masters(req, res){
     //     Master.findAll({include: [Student]})
