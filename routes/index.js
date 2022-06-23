@@ -9,6 +9,10 @@ var session = require('express-session')
 router.get('/',UserController.home)
 router.use('/register', registerRoutes)
 router.get('/login',UserController.loginForm)
+router.get('/addCompany',UserController.addCompany)
+router.post('/addCompany',UserController.addCompanyDet)
+router.get('/manageJob',UserController.manageJob)
+router.get('/applicantList',UserController.manageJob)
 router.post('/login',UserController.postLogin)
 
 const isLoggedIn = function (req,res,next) {

@@ -9,7 +9,25 @@ var session = require('express-session')
 
 class UserController {
     static home(req, res){
-        res.render('home')
+        const role = req.session.role
+        if (req.session.role  === 'recruiter'){
+            const UserId = req.session.userId
+            User.findByPk(UserId,{
+                include :[Company]
+            })
+            .then(result=>{
+                res.render('recruiterHome',{result})
+            })
+            .catch(err=>{
+                res.send(err)
+            })
+        }
+        else if (req.session.role  === 'applicant') {
+            res.send('test')
+        }
+        else{
+            res.render('home')
+        }
     }
 
     static registerForm(req, res){
@@ -66,6 +84,32 @@ class UserController {
                 console.log(err);
                 res.send(err)
             })
+    }
+
+    static addCompany(req,res){
+        res.render('addCompany')
+    }
+    
+    static addCompanyDet(req,res){
+        const UserId = req.session.userId
+        const {name} = req.body
+        const {createdAt,updatedAt} = new Date()
+        Company.create ({name,createdAt,updatedAt,UserId})
+        .then(result =>{
+            res.redirect('/')
+        })
+        .catch(err=>{
+            res.send(err)
+        })
+        
+    }
+
+    static manageJob(req,res) {
+
+        Company.findByPk({
+            include:[Job]
+        })
+        res.render('managejob')
     }
 
     static table(req, res) {
