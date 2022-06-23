@@ -1,6 +1,11 @@
 
 const { Op } = require("sequelize");
 const { User, Applicant, Company, Job } = require("../models");
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const myPlaintextPassword = 's0/\/\P4$$w0rD';
+const someOtherPlaintextPassword = 'not_bacon';
+var session = require('express-session')
 
 class UserController {
     static home(req, res){
@@ -16,8 +21,46 @@ class UserController {
 
         User.create({email, password, role})
             .then(newUser=>{
-                console.log(newUser);
+                
                 res.redirect('/login')
+            })
+            .catch(err=>{
+                
+                res.send(err)
+            })
+    }
+
+    static loginForm(req, res){
+        const {error} = req.query
+        res.render('auth-pages/loginForm', {error})
+    }
+
+    static postLogin(req, res){
+        const {email, password} = req.body
+
+        User.findOne({where: {email: email}})
+            .then(user=>{
+                if (user) {
+                    const isValidPassword = bcrypt.compareSync(password, user.password)
+
+                    if (isValidPassword) {
+
+                        req.session.userId = user.id
+                        req.session.role = user.role
+                        console.log(req.session.userId);
+
+                        return res.redirect('/')
+                        
+                    } else {
+                        const error= 'Invalid username or password'
+                        return res.redirect(`/login?error=${error}`)
+                    }
+                    
+                } else {
+                    const error= 'Invalid username or password'
+                    return res.redirect(`/login?error=${error}`)
+                }
+                
             })
             .catch(err=>{
                 console.log(err);
@@ -25,8 +68,12 @@ class UserController {
             })
     }
 
-    static loginForm(req, res){
-        res.render('auth-pages/loginForm')
+    static table(req, res) {
+        res.render('table')
+    }
+
+    static mvp(req, res) {
+        res.render('mvp')
     }
 
 
