@@ -24,8 +24,8 @@
                     <td><%= el.vacancy %></td>
                     <td><%= el.requirement %></td>
                     <td><%= el.salary %></td>
-                    <td><button><a href=""></a>Edit</button>
-                        <button><a href=""></a>Delete</button>
+                    <td><button><a href="/manageJob/<%= result[0].id %>/editJob/<%= el.id %>">Edit</a></button>
+                        <button><a href="/manageJob/<%= result[0].id %>/deleteJob/<%= el.id %>">Delete</a></button>
                     </td>
                 </tr>
             <% }) %>

@@ -134,6 +134,34 @@ class UserController {
         })
     }
 
+    static deleteJob(req,res){
+        const CompanyId = req.params.CompanyId
+        const id = req.params.id
+        Job.destroy({where:{id:id}})
+        .then(result=>{
+            res.redirect(`/managejob/${CompanyId}`)
+        })
+        .catch(err=>{
+            res.send(err)
+        })
+    }
+
+    static editJobPage(req,res){
+        const CompanyId = req.params.CompanyId
+        const id = req.params.id
+        Job.findByPk(id)
+        .then(result=>{
+            res.render('editJob',{result})
+        })
+        .catch(err=>{
+            res.send(err)
+        })
+    }
+
+    static editJob(req,res){
+        
+    }
+
     static table(req, res) {
         res.render('table')
     }
