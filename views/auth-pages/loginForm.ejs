@@ -1,40 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Log in</title>
-</head>
+  <%- include("../partials/headLogin.ejs", { title: `InstaJobs - Log in`}) %>
+
 <body>
+  <%- include("../partials/navbar.ejs") %>
 
-  <% if (errors) { %>
-   <p style="color:red;"><%= errors %></p>
-  <% } %>
-
-  <form action="/login" method="post">
-    <div class="imgcontainer">
-      <img src="img_avatar2.png" alt="Avatar" class="avatar">
-    </div>
-  
+  <div class="container-fluid py-5">
     <div class="container">
-      <label for="email"><b>Email</b></label>
-      <input type="text" placeholder="Enter email" name="email" >
-  
-      <label for="password"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="password" >
-  
-      <button type="submit">Login</button>
-      <label>
-        <input type="checkbox" checked="checked" name="remember"> Remember me
-      </label>
+
+      <h1 class="text-center mb4">Log in</h1></br>
+      
+
+      <% if (errors) { %>
+      <p style="color:red;"><%= errors %></p>
+      <% } %>
+
+      <form action="/login" method="post">
+      
+        <div class="container">
+          <label for="email"><b>Email</b></label>
+          <input type="text" placeholder="Enter email" name="email" >
+      
+          <label for="password"><b>Password</b></label>
+          <input type="password" placeholder="Enter Password" name="password" >
+      
+          <button type="submit">Login</button>
+          <label>
+            <input type="checkbox" checked="checked" name="remember"> Remember me
+          </label>
+        </div>
+      
+        <div class="container" style="background-color:#f1f1f1">
+          <button type="button" class="cancelbtn">Cancel</button>
+          <span class="psw">Forgot <a href="#">password?</a></span>
+        </div>
+      </form>
     </div>
-  
-    <div class="container" style="background-color:#f1f1f1">
-      <button type="button" class="cancelbtn">Cancel</button>
-      <span class="psw">Forgot <a href="#">password?</a></span>
-    </div>
-  </form>
-  
+  </div>
+
+      
 </body>
 </html>
