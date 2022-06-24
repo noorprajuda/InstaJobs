@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-    <%- include("./partials/head.ejs", { title: `Hack Portal - Hiring`}) %>
+    <%- include("./partials/head.ejs", { title: ` InstaJobs - Job Vacancy List`}) %>
 <body>
+    <%- include("./partials/navbar.ejs") %>
 
 
     <div class="container-fluid py-5">
         <div class="container">
-            <h1 style="margin-top: 50px;" class="text-center mb4"> Hack Portal Job Vacancy</h1></br>
+            <h1 style="margin-top: 50px;" class="text-center mb4"> Job Vacancy List</h1></br>
 
-            <form action="/hiring" method="GET" class="text-center mb4">
-                <input style="width:400px; padding-left: 10px;" type="text" name="title" placeholder="Type your search keyword here..."><button style="margin-left: 20px;" class="btn btn-primary" type="submit">Search</button>
+            <form action="/jobList" method="GET" class="text-center mb4">
+                <input style="width:400px; padding-left: 10px;" type="text" name="title" placeholder="Type your search keyword here..."><button style="margin-left: 20px;" class="btn btn-dark" type="submit">Search</button>
                 </form>
 
             <div class="table-responsive">
@@ -28,7 +29,7 @@
                             <td style="padding-top: 2px; padding-bottom: 2px"><%= el.vacancy %></td>
                             <td style="padding-top: 2px; padding-bottom: 2px"><%= el.createdAt %></td>
                             <td style="padding-top: 2px; padding-bottom: 2px">
-                                <button style="margin: 5px;" class="btn btn-primary" type="button" onclick="location.href='/jobList/<%= el.id %>/detail'">Detail</button>
+                                <button style="margin: 5px;" class="btn btn-dark" type="button" onclick="location.href='/jobList/<%= el.id %>/detail'">Detail</button>
                             </td>
                         </tr>
                     <% }) %>
