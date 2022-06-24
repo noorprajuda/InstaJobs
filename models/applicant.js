@@ -16,9 +16,6 @@ module.exports = (sequelize, DataTypes) => {
       Applicant.belongsTo(models.Company)
     }
 
-    get formatedDate(){
-      return this.interviewDate.toLocaleDateString('en-CA',  {year: 'numeric', month: 'numeric', day: 'numeric' })
-    }
   }
   Applicant.init({
     status: DataTypes.STRING,
