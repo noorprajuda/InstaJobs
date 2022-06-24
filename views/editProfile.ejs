@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include("./partials/head.ejs", { title: `InstaJobs - Edit Profile`}) %>
+<body>
+    <%- include("./partials/navbar.ejs") %>
+
+    <div class="container-fluid py-5">
+        <div class="container">
+
+            <h1 class="text-center mb4">Edit Profile</h1></br>
+
+            <div class="offset-lg-3 col-lg-6">
+                <div class="container mt-5">
+
+                    <% if (errors) { %>
+                        <p style="color: red;">
+                            <% errors.split(',').map(el=>{ %>
+                                <%= el %> <br>
+                            <% })%>
+                        </p>
+                    <% } %>
+
+                    <form action="/editProfile/<%= user.id %>" method="POST">
+                        Full Name: <br>
+                        <input type="text" name="fullName" value="<%= user.fullName %>"><br>
+                        Gender: <br>
+                        <select name="gender" id="gender">
+                            <option selected disabled>--SELECT ONE--</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select><br>
+                        Skill: <br>
+                        <select name="skill">
+                            <option selected disabled>--SELECT ONE--</option>
+                            <option value="SQL">SQL</option>
+                            <option value="JavaScript">JavaScript</option>
+                            <option value="Node JS">Node JS</option>
+                        </select><br>
+                        E-mail: <br>
+                        <input type="text" name="email" value="<%= user.email %>"><br>
+                        Password: <br>
+                        <input type="text" name="password"><br>
+
+                        <div>
+                            <button style="width:100px; margin-top: 10px; border-color: grey;" type="submit" class="btn btn-dark">Update</button>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    
+</body>
+</html>

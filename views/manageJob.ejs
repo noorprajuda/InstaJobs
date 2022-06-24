@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Job</title>
+</head>
+<body>
+    <h1>Job Lists</h1>
+    <button><a href="/manageJob/<%= result[0].id %>/addJob">Add Job</a></button>
+    <table>
+        <thead>
+            <td>Title</td>
+            <td>Vacancy</td>
+            <td>Requirement</td>
+            <td>Salary</td>
+            <td>Action</td>
+        </thead>
+        <tbody>
+            <% result[0].Jobs.forEach(el => { %>
+                <tr>
+                    <td><%= el.title %></td>
+                    <td><%= el.vacancy %></td>
+                    <td><%= el.requirement %></td>
+                    <td><%= formatCurrency(el.salary) %></td>
+                    <td><button><a href="/manageJob/<%= result[0].id %>/editJob/<%= el.id %>">Edit</a></button>
+                        <button><a href="/manageJob/<%= result[0].id %>/deleteJob/<%= el.id %>">Delete</a></button>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</body>
+</html>
