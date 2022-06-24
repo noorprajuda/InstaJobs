@@ -163,15 +163,21 @@ class UserController {
     }
 
     static editProfile(req, res) {
+        const {errors} = req.query
         const UserId = req.session.userId
         
         User.findByPk(UserId)
             .then(user =>{
-                res.render(`editProfile`, {user})
+                res.render(`editProfile`, {user, errors})
             })
             .catch(err=>{
                 
-                res.send(err)
+                if (err.name === 'SequelizeValidationError') {
+                    const errors = err.errors.map(el=> el.message)
+                    res.redirect(`/editProfile/${UserId}?errors=${errors}`)
+                } else {
+                    res.send(err)
+                }
             })
     }
 
@@ -186,7 +192,12 @@ class UserController {
             })
             .catch(err =>{
                 
-                res.send(err)
+                if (err.name === 'SequelizeValidationError') {
+                    const errors = err.errors.map(el=> el.message)
+                    res.redirect(`/editProfile/${UserId}?errors=${errors}`)
+                } else {
+                    res.send(err)
+                }
             })
     }
 
