@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 3001
+const PORT = process.env.PORT || 3000
 const routes = require('./routes/index')
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -23,6 +23,6 @@ app.use(session({
 app.use('/',routes)
 
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT}`)
 })
