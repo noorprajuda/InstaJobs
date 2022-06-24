@@ -63,9 +63,13 @@ module.exports = (sequelize, DataTypes) => {
 
     },
     role: {
+      allowNull: false,
       type: DataTypes.STRING,
       validate: {
         notEmpty: {
+          msg: 'Role can not be empty!'
+        },
+        notNull: {
           msg: 'Role can not be empty!'
         }
       }
@@ -77,11 +81,11 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           msg: 'Password can not be empty!'
         },
-          min8(length) {
-            if (length < 8) {
-              throw new Error('Tidak perlu menggunakan prefix 0 di depan nomor telepon');
-            }
+        min8(val) {
+          if (val.length < 8) {
+            throw new Error('Minimumm password length is 8');
           }
+        }
       }
 
     }
